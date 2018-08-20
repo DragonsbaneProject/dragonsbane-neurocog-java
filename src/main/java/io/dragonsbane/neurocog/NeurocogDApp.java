@@ -3,9 +3,12 @@ package io.dragonsbane.neurocog;
 import io.dragonsbane.neurocog.home.HomeController;
 import io.dragonsbane.neurocog.info.InfoController;
 import io.dragonsbane.neurocog.settings.SettingsController;
+import io.dragonsbane.neurocog.tests.ImpairmentTest;
 import io.onemfive.core.OneMFiveAppContext;
+import io.onemfive.core.admin.AdminService;
 import io.onemfive.core.client.ClientStatusListener;
 import io.onemfive.data.*;
+import io.onemfive.data.health.HealthRecord;
 import io.onemfive.data.util.DLC;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
@@ -23,12 +26,49 @@ import java.io.File;
 import java.util.*;
 import java.util.logging.Logger;
 
-public class DApp extends io.dragonsbane.core.DApp implements ClientStatusListener {
+public class NeurocogDApp extends io.dragonsbane.core.DApp implements ClientStatusListener {
 
-    private static Logger LOG = Logger.getLogger(DApp.class.getName());
+    private static Logger LOG = Logger.getLogger(NeurocogDApp.class.getName());
+
+    private HealthRecord healthRecord;
+    private Double bac = 0.0D;
+    private Boolean baseline = false;
+    private List<ImpairmentTest> tests = new ArrayList<>();
 
     // UI - Menu
     private Stage primaryStage;
+
+    public HealthRecord getHealthRecord() {
+        return healthRecord;
+    }
+
+    public void setHealthRecord(HealthRecord healthRecord) {
+        this.healthRecord = healthRecord;
+    }
+
+    public Double getBac() {
+        return bac;
+    }
+
+    public void setBac(Double bac) {
+        this.bac = bac;
+    }
+
+    public Boolean getBaseline() {
+        return baseline;
+    }
+
+    public void setBaseline(Boolean baseline) {
+        this.baseline = baseline;
+    }
+
+    public void addTest(ImpairmentTest test) {
+        tests.add(test);
+    }
+
+    public List<ImpairmentTest> getTests() {
+        return tests;
+    }
 
     @Override
     public void init() throws Exception {
@@ -125,14 +165,14 @@ public class DApp extends io.dragonsbane.core.DApp implements ClientStatusListen
             }
         };
 
-        // register Neurocog services
-//        Envelope e1 = Envelope.documentFactory();
-//        List<Class> services = new ArrayList<>();
-//        services.add(AnalyticService.class);
-//        DLC.addEntity(services,e1);
-//        DLC.addRoute(AdminService.class, AdminService.OPERATION_REGISTER_SERVICES,e1);
-//        LOG.info("Registering Neurocog services with bus...");
-//        send(e1, serviceRegistrationExceptionsCallback);
+        // register Neurocog service
+        Envelope e1 = Envelope.documentFactory();
+        List<Class> services = new ArrayList<>();
+        services.add(NeurocogService.class);
+        DLC.addEntity(services,e1);
+        DLC.addRoute(AdminService.class, AdminService.OPERATION_REGISTER_SERVICES,e1);
+        LOG.info("Registering Neurocog service with bus...");
+        send(e1, serviceRegistrationExceptionsCallback);
     }
 
     @Override
