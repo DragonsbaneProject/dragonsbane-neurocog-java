@@ -35,7 +35,6 @@ public abstract class ImpairmentTestController extends BaseController {
         Boolean success = super.init(neurocogDApp, root, scene, p);
         if(success) {
             impairmentTest = new ImpairmentTest();
-            impairmentTest.did = dApp.getUserDID();
             did = dApp.getUserDID();
             if(dApp.getBac() != null)
                 bac = dApp.getBac();
