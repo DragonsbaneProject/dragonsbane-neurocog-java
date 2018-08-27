@@ -7,6 +7,7 @@ import io.onemfive.data.DID;
 import io.onemfive.data.Envelope;
 import io.onemfive.data.Route;
 import io.onemfive.data.util.DLC;
+import io.onemfive.neo4j.Neo4jDB;
 import org.neo4j.graphdb.Label;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Relationship;
@@ -23,6 +24,8 @@ import java.util.Properties;
 public class NeurocogService extends BaseService {
 
     public static final String OPERATION_SAVE_TEST = "SAVE_TEST";
+
+    private Neo4jDB db = (Neo4jDB)infoVaultDB;
 
     @Override
     public void handleDocument(Envelope e) {
@@ -47,13 +50,13 @@ public class NeurocogService extends BaseService {
     }
 
     private void saveTest(SaveTestRequest r) {
-        try (Transaction tx = infoVaultDB.getGraphDb().beginTx()) {
-            Node did = infoVaultDB.getGraphDb().findNode(Label.label(DID.class.getName()),"alias", r.did.getAlias());
+        try (Transaction tx = db.getGraphDb().beginTx()) {
+            Node did = db.getGraphDb().findNode(Label.label(DID.class.getName()),"alias", r.did.getAlias());
             if(did==null) {
-                did = infoVaultDB.getGraphDb().createNode(Label.label(DID.class.getName()));
+                did = db.getGraphDb().createNode(Label.label(DID.class.getName()));
                 did.getAllProperties().putAll(r.did.toMap());
             }
-            Node test = infoVaultDB.getGraphDb().createNode(Label.label(ImpairmentTest.class.getName()));
+            Node test = db.getGraphDb().createNode(Label.label(ImpairmentTest.class.getName()));
             test.getAllProperties().putAll(r.test.toMap());
             Relationship rel = did.createRelationshipTo(test, RelTypes.TOOK);
             rel.setProperty("date",new Date().getTime());

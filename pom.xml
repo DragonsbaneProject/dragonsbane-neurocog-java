@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>io.dragonsbane</groupId>
-	<artifactId>neurocog</artifactId>
+	<artifactId>neurocog-java</artifactId>
 	<version>0.2.0-SNAPSHOT</version>
 
 	<packaging>jar</packaging>
@@ -37,28 +37,28 @@
 		</developer>
 	</developers>
 	<scm>
-		<connection>scm:git@github.com/DragonsbaneProject/neurocog</connection>
-		<developerConnection>scm:git@github.com/DragonsbaneProject/neurocog</developerConnection>
-		<url>git@github.com/DragonsbaneProject/neurocog</url>
+		<connection>scm:git@github.com/DragonsbaneProject/dragonsbane-neurocog-java</connection>
+		<developerConnection>scm:git@github.com/DragonsbaneProject/dragonsbane-neurocog-java</developerConnection>
+		<url>git@github.com/DragonsbaneProject/dragonsbane-neurocog-java</url>
 	</scm>
 
 	<profiles>
 		<profile>
 			<id>Development</id>
 			<properties>
-				<logfile>/dragonsbane/logs/neurocog.log</logfile>
+				<logfile>/dgb/logs/neurocog-java.log</logfile>
 			</properties>
 		</profile>
 		<profile>
 			<id>QA</id>
 			<properties>
-				<logfile>/dragonsbane/logs/neurocog.log</logfile>
+				<logfile>/dgb/logs/neurocog-java.log</logfile>
 			</properties>
 		</profile>
 		<profile>
 			<id>Production</id>
 			<properties>
-				<logfile>/dragonsbane/logs/neurocog.log</logfile>
+				<logfile>/dgb/logs/neurocog-java.log</logfile>
 			</properties>
 		</profile>
 	</profiles>
